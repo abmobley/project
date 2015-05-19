@@ -31,8 +31,8 @@ public class SpotifyLoginServer {
 	private static final String TOKEN_SERVER_URL = "https://accounts.spotify.com/api/token";
 	private static final String AUTHORIZATION_SERVER_URL =
 		      "https://accounts.spotify.com/authorize";
-	private static final String CLIENT_ID = System.getProperty("outh.client.id");
-	private static final String CLIENT_SECRET_KEY = System.getProperty("outh.client.secret.key");
+	private static final String CLIENT_ID = System.getProperty("oauth.client.id");
+	private static final String CLIENT_SECRET_KEY = System.getProperty("oauth.client.secret.key");
 	private static final String[] SCOPES = {"user-read-private","user-read-email","playlist-read-private","playlist-modify-public","playlist-modify-private"};
 	
 	
