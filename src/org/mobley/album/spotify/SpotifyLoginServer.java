@@ -31,8 +31,8 @@ public class SpotifyLoginServer {
 	private static final String TOKEN_SERVER_URL = "https://accounts.spotify.com/api/token";
 	private static final String AUTHORIZATION_SERVER_URL =
 		      "https://accounts.spotify.com/authorize";
-	private static final String CLIENT_ID = "a0f2b0a7c6dc4afcb2fd446b678546cf";
-	private static final String CLIENT_SECRET_KEY = "66830c479a864025a72face55827f806";
+	private static final String CLIENT_ID = System.getProperty("outh.client.id");
+	private static final String CLIENT_SECRET_KEY = System.getProperty("outh.client.secret.key");
 	private static final String[] SCOPES = {"user-read-private","user-read-email","playlist-read-private","playlist-modify-public","playlist-modify-private"};
 	
 	
@@ -53,7 +53,7 @@ public class SpotifyLoginServer {
 	public static Credential authorize() throws IOException {
 		AuthorizationCodeFlow flow = getAuthorizationCodeFlow();
 		LocalServerReceiver receiver = getVerificationCodeReceiver();
-		return new AuthorizationCodeInstalledApp(flow, receiver).authorize("abmobley");
+		return new AuthorizationCodeInstalledApp(flow, receiver).authorize(System.getProperty("spotify.user.id"));
 	}
 
 	public static void replacePlaylist(List<Track> tracks, String playlistid, final Credential credential) throws Exception {
