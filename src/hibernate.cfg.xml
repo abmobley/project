@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+    "-//Hibernate/Hibernate Configuration DTD//EN"
+    "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+
+    <!-- a SessionFactory instance listed as /jndi/name -->
+    <session-factory>
+
+        <property name="dialect">org.hibernate.dialect.Oracle10gDialect</property>
+	<property name="connection.driver_class">oracle.jdbc.OracleDriver</property>
+	<property name="connection.url">jdbc:oracle:thin:@localhost:1521:XE</property>
+	<property name="connection.username">SPOTIFY</property>
+        <property name="connection.password">PASS</property>
+
+        <property name="hibernate.current_session_context_class">thread</property>
+        <property name="hibernate.show_sql">true</property>
+        
+        <mapping class="org.mobley.album.data.Album"/>
+        <mapping class="org.mobley.album.data.Artist"/>
+        <mapping class="org.mobley.album.data.Genre"/>
+        <mapping class="org.mobley.album.data.Style"/>
+        <mapping class="org.mobley.album.data.Mood"/>
+        <mapping class="org.mobley.album.data.Theme"/>
+        <mapping class="org.mobley.album.data.Track"/>
+        <mapping class="org.mobley.album.data.Release"/>
+    </session-factory>
+
+</hibernate-configuration>
