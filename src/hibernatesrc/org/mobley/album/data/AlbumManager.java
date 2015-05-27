@@ -132,6 +132,49 @@ public class AlbumManager
       session.getTransaction().commit();
       return idsNotInDB;
    }
+   
+   public static Set<Album> getAlbumsForGenre(String genre) {
+      Set<Album> albums = new HashSet<Album>();
+      Session session = HibernateUtil.getCurrentSession();
+      session.beginTransaction();
+
+      Query q = session.createQuery("select album from Album as album left join album.genres as genre where genre.id = :genreid");
+      q.setParameter("genreid", genre);
+
+      albums.addAll(q.list());
+
+      for(Album album : albums) {
+         Hibernate.initialize(album.getReleases());
+         for(Release release : album.getReleases()) {
+            Hibernate.initialize(release.getTracks());
+         }
+      }
+      
+      session.getTransaction().commit();
+      
+      return albums;
+   }
+   
+   public static Set<Album> getAlbumsForSubgenres(Set<String> subgenres) {
+      Set<Album> albums = new HashSet<Album>();
+      Session session = HibernateUtil.getCurrentSession();
+      session.beginTransaction();
+
+      Query q = session.createQuery("select album from Album as album left join album.styles as style where style.subgenre in (:subgenres) and album.timesSkipped = 0");
+      q.setParameterList("subgenres", subgenres);
+
+      albums.addAll(q.list());
+      
+      for(Album album : albums) {
+         Hibernate.initialize(album.getReleases());
+         for(Release release : album.getReleases()) {
+            Hibernate.initialize(release.getTracks());
+         }
+      }
+      session.getTransaction().commit();
+      
+      return albums;
+   }
 
    public static boolean supplementWithSpotifyInformation(Album album, String spotifyid)
    {
@@ -509,7 +552,18 @@ public class AlbumManager
 
    public static void main(String[] args) throws IOException
    {
-      System.out.println(AlbumManager.findAlbumFromURL("http://www.allmusic.com/album/daydream-nation-mw0000652888"));
+      Set<String> subgenres = new HashSet<String>();
+      subgenres.add("Alternative/Indie Rock");
+      Set<Album> albums = AlbumManager.getAlbumsForSubgenres(subgenres);
+      for(Album album : albums) {
+         for(Release release : album.getReleases()) {
+            for(Track track : release.getTracks()) {
+               if(track.getDuration() > 0) {
+                  System.out.println(track.getTitle());
+               }
+            }
+         }
+      }
    }
 
    public static void setProcessed(Album album)
@@ -530,4 +584,5 @@ public class AlbumManager
       System.out.println("Deleted " + deletedEntities + " releases for " + album.getTitle() );
       session.getTransaction().commit();
    }
+
 }

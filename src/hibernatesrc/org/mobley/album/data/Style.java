@@ -17,8 +17,16 @@ public class Style implements Serializable
       super();
    }
 
+   public Style(String id, String name)
+   {
+      this.id = id;
+      this.name = name;
+   }
+
    private String id;
    private String name;
+   private String subgenre;
+   private String genre;
    
    @Id
    public String getId()
@@ -39,6 +47,27 @@ public class Style implements Serializable
    public void setName(String name)
    {
       this.name = name;
+   }
+
+   public String getSubgenre()
+   {
+      return subgenre;
+   }
+
+   public void setSubgenre(String subgenre)
+   {
+      this.subgenre = subgenre;
+   }
+
+
+   public String getGenre()
+   {
+      return genre;
+   }
+
+   public void setGenre(String genre)
+   {
+      this.genre = genre;
    }
 
    @Override
@@ -73,7 +102,7 @@ public class Style implements Serializable
    @Override
    public String toString()
    {
-      return "Style [id=" + id + ", name=" + name + "]";
+      return "Style [id=" + id + ", name=" + name + ", subgenre=" + subgenre + ", genre=" + genre + "]";
    }
    
    
